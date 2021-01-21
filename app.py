@@ -20,6 +20,15 @@ def update_client_name_function(client_name, update_client_name):
         print('Client name not in client list!')
 
 
+def delete_client_function(client_name):
+    global clients
+
+    if client_name in clients:
+        clients = clients.replace(client_name, '')
+    else:
+        print('Client name not in client list!')
+
+
 def get_client_name():
     return input('What is the client name?  ')
 
@@ -42,12 +51,14 @@ def print_welcome():
     print('What do you want to do?')
     print('[C]reate')
     print('[U]pdate')
+    print('[D]elete')
 
 
 if __name__ == '__main__':
     print_welcome()
 
     command = input('Insert command: ')
+    command = command.upper()
 
     if command == 'C':
         client_name = get_client_name()
@@ -58,7 +69,11 @@ if __name__ == '__main__':
         update_client_name = input('New name: ')
         update_client_name_function(client_name, update_client_name)
         list_client()
+    elif command == 'D':
+        client_name = get_client_name()
+        delete_client_function(client_name)
+        list_client()
     else:
-        pass
+        print('Invalid command')
 
     
