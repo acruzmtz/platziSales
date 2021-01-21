@@ -29,6 +29,7 @@ def delete_client_function(client_name):
         print('Client name not in client list!')
 
 
+<<<<<<< HEAD
 def search_client(client_name):
     clients_list = clients.split(',')
     
@@ -39,6 +40,8 @@ def search_client(client_name):
             return True
 
 
+=======
+>>>>>>> master
 def get_client_name():
     return input('What is the client name?  ')
 
