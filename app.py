@@ -1,3 +1,5 @@
+import sys
+
 clients = 'Alejandro,Edgar,'
 
 def add_client(client_name):
@@ -40,7 +42,19 @@ def search_client(client_name):
 
 
 def get_client_name():
-    return input('What is the client name?  ')
+    client_name = None
+
+    while not client_name:
+        client_name = input('What is the client name?  ')
+
+        if client_name == 'exit':
+            client_name = None
+            break
+
+    if client_name == None:
+        sys.exit()
+
+    return client_name
 
 
 def _add_coma():
