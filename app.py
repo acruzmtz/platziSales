@@ -1,13 +1,13 @@
 import sys
 
-clients = 'Alejandro,Edgar,'
+clients = ['Alejandro','Edgar']
 
 def add_client(client_name):
     global clients
 
     if client_name not in clients:
-        clients += client_name
-        _add_coma()
+        clients.append(client_name)
+        # _add_coma()
         list_client()
     else:
         print('Client already exist!')
@@ -17,7 +17,9 @@ def update_client_name_function(client_name, update_client_name):
     global clients
 
     if client_name in clients:
-        clients = clients.replace(client_name, update_client_name)
+        # clients = clients.replace(client_name, update_client_name)
+        clients.remove(client_name)
+        add_client(update_client_name)
     else:
         print('Client name not in client list!')
 
@@ -26,15 +28,17 @@ def delete_client_function(client_name):
     global clients
 
     if client_name in clients:
-        clients = clients.replace(client_name, '')
+        # clients = clients.replace(client_name, '')
+        idx = clients.index(client_name)
+        del clients[idx]
     else:
         print('Client name not in client list!')
 
 
 def search_client(client_name):
-    clients_list = clients.split(',')
-    
-    for client in clients_list:
+    # clients_list = clients.split(',')
+
+    for client in clients:
         if client != client_name:
             continue
         else:
@@ -85,16 +89,14 @@ if __name__ == '__main__':
 
     command = input('Insert command: ')
     command = command.upper()
-    
+
     if command == 'C':
         client_name = get_client_name()
         add_client(client_name)
-        list_client()
     elif command == 'U':
         client_name = get_client_name()
         update_client_name = input('New name: ')
         update_client_name_function(client_name, update_client_name)
-        list_client()
     elif command == 'D':
         client_name = get_client_name()
         delete_client_function(client_name)
@@ -111,5 +113,3 @@ if __name__ == '__main__':
             print(f'The client name {client_name} not in client list')
     else:
         print('Invalid command')
-
-    
