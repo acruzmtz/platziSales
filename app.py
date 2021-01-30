@@ -1,26 +1,36 @@
 import sys
+import csv
+import os
 
-clients = [
-    {
-        'name': 'Alejandro',
-        'company': 'breakfood',
-        'email': 'acruzmtz@gmail.com',
-        'position': 'Back-end developer'
-    },
-    {
-        'name': 'Edgar',
-        'company': 'breakfood',
-        'email': 'ed@gmail.com',
-        'position': 'Front-end developer'
-    }
-]
+CLIENT_TABLE = '.clients.csv'
+CLIENT_SCHEMA = ['name', 'company', 'email', 'position']
+clients = []
+
+
+def _initialize_data_from_storage():
+    with open(CLIENT_TABLE, 'r') as file:
+        reader = csv.DictReader(file, fieldnames=CLIENT_SCHEMA)
+
+        for row in reader:
+            clients.append(row)
+
+
+def _save_clients_to_storage():
+    #creamos una tabla temporal para guardar los nuevos datos y despues la renombramos
+    tmp_client_table = f'{CLIENT_TABLE}.tmp'
+    with open(tmp_client_table, 'w') as file:
+        writer = csv.DictWriter(file, fieldnames=CLIENT_SCHEMA)
+        writer.writerows(clients)
+
+        os.remove(CLIENT_TABLE)
+        os.rename(tmp_client_table, CLIENT_TABLE)
+
 
 def add_client(client):
     global clients
 
     if client not in clients:
         clients.append(client)
-        list_client()
     else:
         print('Client already exist!')
 
@@ -30,7 +40,6 @@ def update_client_name_function(idx, update_client):
 
     del clients[idx]
     clients.append(update_client)
-    list_client()
 
 
 def check_if_client_exist(client_name):
@@ -46,7 +55,6 @@ def delete_client_function(client_name):
 
     if idx != None:
         del clients[idx]
-        list_client()
     else:
         print('Client name not in client list!')
 
@@ -112,6 +120,8 @@ def print_welcome():
 
 
 if __name__ == '__main__':
+    _initialize_data_from_storage()
+
     print_welcome()
 
     command = input('Insert command: ')
@@ -153,3 +163,6 @@ if __name__ == '__main__':
         search = search_client(client_name)
     else:
         print('Invalid command')
+
+
+    _save_clients_to_storage()
