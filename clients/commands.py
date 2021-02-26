@@ -11,9 +11,9 @@ def clients():
 
 @clients.command()
 @click.option('-n', '--name', type=str, prompt=True, help='The client name')
-@click.option('-c', '--company', type=str, prompt=True, help='The client name')
-@click.option('-e', '--email', type=str, prompt=True, help='The client name')
-@click.option('-p', '--position', type=str, prompt=True, help='The client name')
+@click.option('-c', '--company', type=str, prompt=True, help='The client company')
+@click.option('-e', '--email', type=str, prompt=True, help='The client email')
+@click.option('-p', '--position', type=str, prompt=True, help='The client position')
 @click.pass_context
 def create(context, name, company, email, position):
     """ Create a new client """
@@ -43,10 +43,33 @@ def list(context):
 
 
 @clients.command()
+@click.argument('client_uid', type=str)
 @click.pass_context
-def update(context, username):
+def update(context, client_uid):
     """ Update client info """
-    pass
+    client_service = ClientService(context.obj['clients_table'])
+    clients = client_service.list_clients()
+    client = [client for client in clients if client['uid'] == client_uid]
+
+    if client:
+        client = _get_info_to_update(Client(**client[0])) #convert client in cass obj
+        client_service.update_client(client)
+
+        click.echo('client updated!')
+    else:
+        click.echo('Error!, client not found')
+
+
+def _get_info_to_update(client):
+    click.echo('Leave empty if you dont want to modify the value')
+
+    client.name = click.prompt('New name: ', type=str, default=client.name)
+    client.company = click.prompt('New company: ', type=str, default=client.company)
+    client.email = click.prompt('New email: ', type=str, default=client.email)
+    client.position = click.prompt('New position: ', type=str, default=client.position)
+
+
+    return client
 
 
 @clients.command()
