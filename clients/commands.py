@@ -73,10 +73,20 @@ def _get_info_to_update(client):
 
 
 @clients.command()
+@click.argument('client_uid', type=str)
 @click.pass_context
-def delete(context, username):
+def delete(context, client_uid):
     """ Delete a client """
-    pass
+    client_service = ClientService(context.obj['clients_table'])
+    clients = client_service.list_clients()
+
+    client = [client for client in clients if client['uid'] == client_uid]
+
+    if client:
+        client_service.delete_client(client_uid)
+        click.echo('client deleted succesfully!')
+    else:
+        click.echo('Error!, client not found')
 
 
 all = clients

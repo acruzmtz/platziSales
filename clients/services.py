@@ -7,17 +7,20 @@ class ClientService:
     def __init__(self, table_name):
         self.table_name = table_name
 
+
     def create_client(self, client):
         """ take a class as argument """
         with open(self.table_name, mode='a') as file:
             writer = csv.DictWriter(file, fieldnames=Client.schema())
             writer.writerow(client.to_dict()) #client reference to a class, not an instance
 
+
     def list_clients(self):
         with open(self.table_name, mode='r') as file:
             reader = csv.DictReader(file, fieldnames=Client.schema())
 
             return list(reader)
+
 
     def update_client(self, updated_client):
         """ take a class as parameter and compare with a uid client in the list """
@@ -36,6 +39,19 @@ class ClientService:
         self._save_clients_to_disk(updated_clients)
 
 
+    def delete_client(self, client_uid):
+        clients = self.list_clients()
+        deleted_client = []
+
+        for client in clients:
+            if client['uid'] == client_uid:
+                continue
+            else:
+                deleted_client.append(client)
+
+        self._save_clients_to_disk(deleted_client)
+
+        
     def _save_clients_to_disk(self, clients):
         # create a temporal table
         tmp_table_name = self.table_name + '.tmp'
