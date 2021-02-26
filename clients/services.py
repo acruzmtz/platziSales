@@ -11,3 +11,9 @@ class ClientService:
         with open(self.table_name, mode='a') as file:
             writer = csv.DictWriter(file, fieldnames=Client.schema())
             writer.writerow(client.to_dict()) #client reference to a class, not an instance
+
+    def list_clients(self):
+        with open(self.table_name, mode='r') as file:
+            reader = csv.DictReader(file, fieldnames=Client.schema())
+
+            return list(reader)

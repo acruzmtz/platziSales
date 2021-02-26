@@ -6,6 +6,7 @@ class Client:
     def __init__(self, name, company, email, position, uid=None):
         self.name = name
         self.company = company
+        self.email = email
         self.position = position
         self.uid = uid or uuid.uuid4() #we can use the logical operators (and, or) to set a value in vars
 
