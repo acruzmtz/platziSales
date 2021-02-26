@@ -7,11 +7,11 @@ class Client:
         self.name = name
         self.company = company
         self.position = position
-        self.uid = uid or uuid.uuid4() #we can use the logical operators to set a value in vars
+        self.uid = uid or uuid.uuid4() #we can use the logical operators (and, or) to set a value in vars
 
 
     def to_dict(self):
-        return vars(self)
+        return vars(self) #returns a dict, convert the self class to a dictionary
 
     @staticmethod
     def schema():
