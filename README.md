@@ -19,7 +19,7 @@ ___
 
 <img width="716" alt="Captura de Pantalla 2021-03-28 a la(s) 6 43 32 p m" src="https://user-images.githubusercontent.com/49222619/112774014-81a89280-8ff5-11eb-80c6-01e5b5e9289c.png">
 
-__
+___
 
 The commands you can use are:
 
